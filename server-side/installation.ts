@@ -10,11 +10,14 @@ The error Message is important! it will be written in the audit log and help the
 
 import { Client, Request } from '@pepperi-addons/debug-server';
 import { RelationsService } from './services/relations.service';
+import { TasksService } from './services/tasks.service';
 
 export async function install(client: Client, request: Request): Promise<any> {
     try {
         const service = new RelationsService(client);
         await service.upsertRelations();
+        const taskService = new TasksService(client);
+        await taskService.createTaskSchema();
     } catch (err) {
         throw new Error(`Failed to create relations. error - ${err}`);
     }
